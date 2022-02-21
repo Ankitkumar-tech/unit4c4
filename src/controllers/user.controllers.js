@@ -8,10 +8,14 @@ const fs=require('fs')
 router.post('',
 body('firstName').isLowercase().isLength({min:3,max:30}),
 body('age').isNumeric().custom(value=>{
-    if(value>150 || value<=0){
-        throw new Error("Enter the Valid Age")
+    if(value<150 || value>=0){
+        return true
+    }
+    else{
+        throw new Error("Pls enter the Valid Age")
     }
 }),
+
 body('email').isEmail().custom(async(value)=>{
     const users=await User.findOne({email:value})
     if(users){
